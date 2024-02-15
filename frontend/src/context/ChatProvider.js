@@ -1,32 +1,35 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
-  const [user, setUser] = useState();
   const [selectedChat, setSelectedChat] = useState();
-  const [chats, setChats] = useState([]);
+  const [user, setUser] = useState();
   const [notification, setNotification] = useState([]);
-  const navigate = useNavigate();
+  const [chats, setChats] = useState();
+
+  const history = useHistory();
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUser(userInfo);
-    if (!userInfo) {
-      navigate("/");
-    }
-  }, [navigate]);
+
+    if (!userInfo) history.push("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history]);
+
   return (
     <ChatContext.Provider
       value={{
-        user,
-        setUser,
         selectedChat,
         setSelectedChat,
-        chats,
-        setChats,
+        user,
+        setUser,
         notification,
         setNotification,
+        chats,
+        setChats,
       }}
     >
       {children}
@@ -34,6 +37,8 @@ const ChatProvider = ({ children }) => {
   );
 };
 
-export const useChatContext = () => useContext(ChatContext);
+export const ChatState = () => {
+  return useContext(ChatContext);
+};
 
 export default ChatProvider;
