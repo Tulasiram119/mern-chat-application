@@ -13,11 +13,8 @@ const PORT = process.env.PORT || 5000;
 
 connectDB();
 app.use(express.json());
-const corsOptions = {
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+
+app.use(cors());
 app.use("/api/user/", userRoutes);
 app.use("/api/chats", chatRoutes);
 app.use("/api/messages", messageRoutes);
