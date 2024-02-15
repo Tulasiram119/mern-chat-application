@@ -13,11 +13,6 @@ const PORT = process.env.PORT || 5000;
 
 connectDB();
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-  })
-);
 
 app.use("/api/user/", userRoutes);
 app.use("/api/chats", chatRoutes);
